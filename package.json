@@ -1,0 +1,24 @@
+{
+  "name": "nestjs-prisma-monorepo",
+  "version": "1.0.0",
+  "scripts": {
+    "format-and-lint": "biome check .",
+    "format-and-lint:fix": "biome check . --write",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "build:web:local": "pnpm run build:local --workspace web",
+    "build:web:dev": "pnpm run build:dev --workspace web",
+    "build:web:prod": "pnpm run build:prod --workspace web",
+    "db:migrate:local": "turbo run db:migrate:local",
+    "db:migrate:dev": "turbo run db:migrate:dev",
+    "db:migrate:prod": "turbo run db:migrate:prod",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push"
+  },
+  "packageManager": "pnpm@10.19.0",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.14",
+    "tsx": "^4.21.0",
+    "turbo": "^2.9.9"
+  }
+}

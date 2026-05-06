@@ -1,0 +1,14 @@
+{
+  "rootDir": "../src",
+  "modulePaths": ["<rootDir>"],
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleNameMapper": {
+    "@/(.*)": "<rootDir>/$1"
+  },
+  "testEnvironment": "node",
+  "testRegex": ".*\\.test\\.ts$",
+  "testPathIgnorePatterns": [".*\\.integration\\.test\\.ts$"],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
+}

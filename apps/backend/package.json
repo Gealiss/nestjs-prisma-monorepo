@@ -1,0 +1,53 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "scripts": {
+    "build": "nest build",
+    "dev": "pnpm start:dev --preserveWatchOutput",
+    "start": "dotenv -e env/.env.local -o -- nest start",
+    "start:dev": "dotenv -e env/.env.local -o -- nest start --watch",
+    "start:debug": "dotenv -e env/.env.local -o -- nest start --debug --watch",
+    "start:prod": "dotenv -e env/.env.local -o -- node dist/main",
+    "test:unit": "dotenv -e env/.env.test -o -- jest --config ./test/jest-unit.config.json --verbose",
+    "test:integration": "dotenv -e env/.env.test -o -- jest --config ./test/jest-integration.config.json --verbose",
+    "test:e2e": "dotenv -e env/.env.test -o -- jest --config ./test/jest-e2e.config.json --verbose"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/platform-express": "^11.1.19",
+    "@nestjs/swagger": "^11.4.2",
+    "@repo/database": "workspace:*",
+    "dotenv": "^17.4.2",
+    "jose": "^6.2.3",
+    "nest-winston": "^1.10.2",
+    "nestjs-zod": "^5.3.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "winston": "^3.19.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.21",
+    "@nestjs/schematics": "^11.1.0",
+    "@nestjs/testing": "^11.1.19",
+    "@repo/typescript-config": "workspace:*",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.10",
+    "@types/supertest": "^6.0.3",
+    "dotenv-cli": "^11.0.0",
+    "jest": "^30.3.0",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.9",
+    "ts-loader": "^9.5.7",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
+  }
+}
