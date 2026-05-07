@@ -20,9 +20,9 @@ if (healthBtn && healthResult && responseContent) {
     try {
       const response = await fetch(`${apiUrl}/health`);
       const data = await response.json();
-      
+
       responseContent.textContent = JSON.stringify(data, null, 2);
-      
+
       if (!response.ok) {
         responseContent.classList.add('error');
       }

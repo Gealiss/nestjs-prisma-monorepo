@@ -1,6 +1,6 @@
 # NestJS Prisma Monorepo Template
 
-A starter template for building modern full-stack applications using **Turborepo**, **NestJS** with **Prisma**, and **Vite**. This monorepo is pre-configured with industry-standard tooling and best practices so you can focus on building features instead of configuring infrastructure.
+A starter template for building modern full-stack applications using **Turborepo**, **NestJS** with **Prisma**, **Vite**, and **Prometheus**. This monorepo is pre-configured with industry-standard tooling and best practices so you can focus on building features instead of configuring infrastructure.
 
 ## 🌟 What's Included
 
@@ -10,6 +10,7 @@ A starter template for building modern full-stack applications using **Turborepo
 - **Environment Safety**: Strict environment variable validation using Zod.
 - **Type-safe Validation**: Request validation using `nestjs-zod`.
 - **API Documentation**: Auto-generated Swagger UI available at `/swagger`.
+- **Metrics**: Prometheus client installed, exposing metrics at `/metrics`.
 - **Testing**: Setup for Unit, Integration, and E2E tests.
 - **Docker**: Includes a production-ready `Dockerfile.backend`.
 
@@ -76,6 +77,7 @@ docker compose -f docker-compose.local.yml up -d
 
 - **Backend / Swagger**: `http://localhost:3000/swagger` (or the `BACKEND_HOST_PORT` defined in your root `.env`)
 - **Frontend Web App**: `http://localhost:8080` (or the `WEBAPP_HOST_PORT` defined in your root `.env`)
+- **Prometheus**: `http://localhost:9090` (or the `PROMETHEUS_HOST_PORT` defined in your root `.env`)
 
 ## 🛠️ Monorepo Scripts
 
