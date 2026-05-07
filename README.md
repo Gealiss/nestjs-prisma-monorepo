@@ -15,7 +15,7 @@ A starter template for building modern full-stack applications using **Turborepo
 
 ### Frontend (`apps/webapp`)
 - **Vite**: Lightning-fast build tool and dev server.
-- **Vanilla Setup**: Lightweight plain HTML/JS starting point (easy to swap with your framework of choice).
+- **Vanilla Setup**: Lightweight plain HTML/JS starting point (easy to swap with your framework of choice). Includes a built-in UI to trigger and display requests to the backend's `/health` endpoint.
 
 ### Shared Packages
 - **Database (`packages/database`)**: Shared Prisma schema, migrations, and database client.
@@ -61,6 +61,21 @@ pnpm dev
 
 - **Backend / Swagger**: `http://localhost:3000/swagger`
 - **Frontend Vite App**: (Check the terminal for the exact Vite localhost port)
+
+### 5. Start with Docker Compose
+
+You can run the entire stack (PostgreSQL, Backend, and a built version of the Webapp via Nginx) using Docker Compose:
+
+```bash
+# Ensure the webapp is built first so Nginx has static files to serve
+pnpm build
+
+# Start the services in the background
+docker compose -f docker-compose.local.yml up -d
+```
+
+- **Backend / Swagger**: `http://localhost:3000/swagger` (or the `BACKEND_HOST_PORT` defined in your root `.env`)
+- **Frontend Web App**: `http://localhost:8080` (or the `WEBAPP_HOST_PORT` defined in your root `.env`)
 
 ## 🛠️ Monorepo Scripts
 

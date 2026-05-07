@@ -1,0 +1,92 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: ${SYSTEM_NAME}-postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE_NAME}
+    volumes:
+      - pg_data:/var/lib/postgresql
+    ports:
+      - "${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}"
+    healthcheck:
+      # Specifying the username explicitly (-U) is required because otherwise psql will use the current OS user as your database username
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE_NAME}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - app_network
+
+  backend:
+    image: ${SYSTEM_NAME}-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: ${SYSTEM_NAME}-backend
+    restart: unless-stopped
+    env_file:
+      - ${BACKEND_ENV_FILE}
+    environment:
+      # Override the port defined in the .env file
+      - PORT=${BACKEND_CONTAINER_PORT}
+      # Override the database url defined in the .env file
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_CONTAINER_PORT}/${POSTGRES_DATABASE_NAME}
+      - APP_ENV=local
+      - APP_NAME=${SYSTEM_NAME}-backend
+    labels:
+      serviceName: ${SYSTEM_NAME}-backend
+      environment: local
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+    ports:
+      - "${BACKEND_HOST_PORT}:${BACKEND_CONTAINER_PORT}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--spider", "http://backend:${BACKEND_CONTAINER_PORT}/health" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      # Wait for the container to be ready
+      start_period: 15s
+
+  web:
+    image: nginx:alpine
+    container_name: ${SYSTEM_NAME}-web
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    restart: unless-stopped
+    ports:
+      - "${WEBAPP_HOST_PORT}:${WEBAPP_CONTAINER_PORT}"
+    volumes:
+      - ./apps/webapp/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+
+volumes:
+  pg_data:
+    name: ${SYSTEM_NAME}-postgres-data
+  prom_data:
+    name: ${SYSTEM_NAME}-prometheus-data
+
+networks:
+  app_network:
+    name: ${SYSTEM_NAME}-network
+    driver: bridge
